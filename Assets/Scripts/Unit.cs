@@ -22,6 +22,7 @@ public class Unit : MonoBehaviour
     float RateOfFire;
     float BunShiledDistance;
 
+    bool enemy;
     bool shielding;
     float countDown;
     Action OnDeathCallback;
@@ -30,8 +31,9 @@ public class Unit : MonoBehaviour
     Collider2D bunShiledCollider;
     Collider2D burgerCollider;
 
-    public void Initialize(Action OnDeathCallback = null)
+    public void Initialize(bool enemy, Action OnDeathCallback = null)
     {
+        this.enemy = enemy;
         this.OnDeathCallback = OnDeathCallback;
         shielding = false;
         Health = StartingHealth;
@@ -84,7 +86,7 @@ public class Unit : MonoBehaviour
             return false;
         }
 
-        var pickleObject = GameController.GetPickle(PicklePrefab, transform.position, Quaternion.identity);
+        var pickleObject = GameController.GetPickle(PicklePrefab, transform.position, Quaternion.identity, enemy);
         var pickle = pickleObject.GetComponent<Pickle>();
         var collider = pickleObject.GetComponent<CircleCollider2D>();
         Physics2D.IgnoreCollision(collider, bunShiledCollider);

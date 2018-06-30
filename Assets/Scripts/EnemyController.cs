@@ -3,8 +3,8 @@
 public class EnemyController : MonoBehaviour
 {
     public bool Attack;
-    public int StartingBurstAmount;
-    public float StartingBurstTimeout;
+    public Vector2 BurstRange;
+    public Vector2 BurstTimeoutRange;
 
     EnemyNavigator navigator;
     GameObject player;
@@ -25,9 +25,8 @@ public class EnemyController : MonoBehaviour
         navigator = GetComponent<EnemyNavigator>();
         rb = GetComponent<Rigidbody2D>();
         unit = GetComponent<Unit>();
-        unit.Initialize(OnDeath);
-        burstTimeout = StartingBurstTimeout;
-        burstAmount = StartingBurstAmount;
+        unit.Initialize(true, OnDeath);
+        burstTimeout = Random.Range(BurstTimeoutRange.x, BurstTimeoutRange.x);
     }
 
     void Update()
@@ -38,8 +37,8 @@ public class EnemyController : MonoBehaviour
 
         if (bursting && burstAmount <= 0)
         {
-            burstAmount = StartingBurstAmount;
-            burstTimeout = StartingBurstTimeout;
+            burstAmount = Random.Range(BurstRange.x, BurstRange.y);
+            burstTimeout = Random.Range(BurstTimeoutRange.x, BurstTimeoutRange.x);
             bursting = false;
         }
 

@@ -55,7 +55,7 @@ public class GameController : MonoBehaviour
         pickle.gameObject.SetActive(false);
     }
 
-    public static GameObject GetPickle(GameObject picklePrefab, Vector3 position, Quaternion rotation)
+    public static GameObject GetPickle(GameObject picklePrefab, Vector3 position, Quaternion rotation, bool enemy)
     {
         if (pooledPickles.Count > 0)
         {
@@ -63,13 +63,16 @@ public class GameController : MonoBehaviour
             pickleObject.transform.position = position;
             pickleObject.transform.rotation = rotation;
             pickleObject.SetActive(true);
+            pickleObject.layer = enemy ? 12 : 8;
             var pickle = pickleObject.GetComponent<Pickle>();
             pickle.Initialize();
             return pickleObject;
         }
         else
         {
-            return Instantiate(picklePrefab, position, rotation);
+            var pickleObject = Instantiate(picklePrefab, position, rotation);
+            pickleObject.layer = enemy ? 12 : 8;
+            return pickleObject;
         }
     }
 }

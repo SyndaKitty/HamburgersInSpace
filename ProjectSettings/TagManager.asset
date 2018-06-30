@@ -14,11 +14,11 @@ TagManager:
   - UI
   - 
   - 
-  - Projectiles
-  - Units
-  - Shields
-  - 
-  - 
+  - Projectile
+  - Enemy
+  - Shield
+  - Player
+  - EnemyProjectile
   - 
   - 
   - 

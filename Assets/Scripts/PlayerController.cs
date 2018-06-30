@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         unit = GetComponent<Unit>();
-        unit.Initialize(OnDeath);
+        unit.Initialize(false, OnDeath);
     }
 
     void OnDeath()
