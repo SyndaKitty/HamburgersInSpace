@@ -6,33 +6,46 @@ using UnityEngine;
 [RequireComponent(typeof(CircleCollider2D))]
 public class Unit : MonoBehaviour
 {
-    public float Health;
-    public float PickleVelocity;
-    public float RateOfFire;
-    public float countDown;
-    public float BunShiledDistance;
     public Sprite FullBurgerSprite;
     public Sprite SplitBurgerSprite;
     public GameObject BunShiledPrefab;
+    public GameObject PicklePrefab;
     public Vector2 BunShiledOffset;
 
-    Action OnDeathCallback;
-    GameObject picklePrefab;
-    SpriteRenderer sr;
+    public float StartingHealth;
+    public float StartingPickleVelocity;
+    public float StartingRateOfFire;
+    public float StartingBunShiledDistance;
+
+    float Health;
+    float PickleVelocity;
+    float RateOfFire;
+    float BunShiledDistance;
+
     bool shielding;
+    float countDown;
+    Action OnDeathCallback;
+    SpriteRenderer sr;
     GameObject bunShiled;
     Collider2D bunShiledCollider;
     Collider2D burgerCollider;
 
-    public void Initialize(float health, GameObject picklePrefab, float rateOfFire, Action OnDeathCallback = null)
+    public void Initialize(Action OnDeathCallback = null)
     {
-        sr = GetComponent<SpriteRenderer>();
-        this.Health = health;
-        this.picklePrefab = picklePrefab;
         this.OnDeathCallback = OnDeathCallback;
-        this.RateOfFire = rateOfFire;
         shielding = false;
+        Health = StartingHealth;
+        RateOfFire = StartingRateOfFire;
+        PickleVelocity = StartingPickleVelocity;
+        BunShiledDistance = StartingBunShiledDistance;
+
+        sr = GetComponent<SpriteRenderer>();
         sr.sprite = FullBurgerSprite;
+
+        if (bunShiled == null)
+        {
+            Destroy(bunShiled);
+        }
 
         bunShiled = Instantiate(BunShiledPrefab);
         bunShiledCollider = bunShiled.GetComponent<EdgeCollider2D>();
@@ -56,11 +69,11 @@ public class Unit : MonoBehaviour
         bunShiled.transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(targetDifference.y, targetDifference.x) * Mathf.Rad2Deg - 90, Vector3.forward);
     }
 
-    public void Shoot(Vector3 target)
+    public bool Shoot(Vector3 target)
     {
         if (countDown > 0)
         {
-            return;
+            return false;
         }
 
         countDown += RateOfFire;
@@ -68,10 +81,10 @@ public class Unit : MonoBehaviour
         target.z = transform.position.z;
         if (target == transform.position)
         {
-            return;
+            return false;
         }
 
-        var pickleObject = GameController.GetPickle(picklePrefab, transform.position, Quaternion.identity);
+        var pickleObject = GameController.GetPickle(PicklePrefab, transform.position, Quaternion.identity);
         var pickle = pickleObject.GetComponent<Pickle>();
         var collider = pickleObject.GetComponent<CircleCollider2D>();
         Physics2D.IgnoreCollision(collider, bunShiledCollider);
@@ -90,6 +103,7 @@ public class Unit : MonoBehaviour
             magnitude = -1;
         }
         pickleRb.angularVelocity = magnitude * UnityEngine.Random.Range(80, 300f);
+        return true;
     }
 
     public void Damage(float amount)

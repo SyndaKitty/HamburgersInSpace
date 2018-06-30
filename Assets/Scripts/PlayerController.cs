@@ -6,10 +6,6 @@ public class PlayerController : MonoBehaviour
 {
     public float Acceleration;
     public float Speed;
-    public float PlayerHealth = 10;
-    public GameObject PicklePrefab;
-    public float RateOfFire = .3f;
-
 
     Rigidbody2D rb;
     Unit unit;
@@ -18,7 +14,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         unit = GetComponent<Unit>();
-        unit.Initialize(PlayerHealth, PicklePrefab, RateOfFire, OnDeath);
+        unit.Initialize(OnDeath);
     }
 
     void OnDeath()
