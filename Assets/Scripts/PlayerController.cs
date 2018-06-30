@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public float Speed;
     public float PlayerHealth = 10;
     public GameObject PicklePrefab;
+    public float RateOfFire = .3f;
 
     Rigidbody2D rb;
     Unit unit;
@@ -18,7 +19,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<CircleCollider2D>();
         unit = GetComponent<Unit>();
-        unit.Initialize(PlayerHealth, PicklePrefab, OnDeath);
+        unit.Initialize(PlayerHealth, PicklePrefab, RateOfFire, OnDeath);
     }
 
     void OnDeath()
@@ -33,7 +34,7 @@ public class PlayerController : MonoBehaviour
         Vector2 force = Speed * targetVelocity - rb.velocity;
         rb.AddForce(force * Acceleration);
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             var target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             // TODO

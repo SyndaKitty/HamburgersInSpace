@@ -226,6 +226,7 @@ MonoBehaviour:
   PlayerHealth: 10
   PicklePrefab: {fileID: 1311002381001994, guid: 3d49d33ef305aed42822d972602d0fa7,
     type: 2}
+  RateOfFire: 0.25
 --- !u!212 &601583840
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -279,7 +280,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 601583838}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.962, y: -0.582, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -318,6 +319,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 10
   PickleVelocity: 10
+  RateOfFire: 0
+  countDown: 0
 --- !u!58 &601583844
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -332,4 +335,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.35

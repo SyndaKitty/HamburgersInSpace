@@ -8,31 +8,41 @@ public class Unit : MonoBehaviour
 {
     public float Health;
     public float PickleVelocity;
-
+    public float RateOfFire;
+    public float countDown;
     Action OnDeathCallback;
     GameObject picklePrefab;
 
-    public void Initialize(float health, GameObject picklePrefab, Action OnDeathCallback = null)
+    public void Initialize(float health, GameObject picklePrefab, float rateOfFire, Action OnDeathCallback = null)
     {
         this.Health = health;
         this.picklePrefab = picklePrefab;
         this.OnDeathCallback = OnDeathCallback;
+        this.RateOfFire = rateOfFire;
     }
 
     void Update()
     {
-
+        countDown -= Time.deltaTime;
+        if (countDown < 0) countDown = 0;
     }
 
     public void Shoot(Collider2D sourceCollider, Vector3 target)
     {
+        if (countDown > 0)
+        {
+            return;
+        }
+
+        countDown += RateOfFire;
+        
         target.z = transform.position.z;
         if (target == transform.position)
         {
             return;
         }
 
-        var pickleObject = Instantiate(picklePrefab, transform.position, Quaternion.identity);
+        var pickleObject = GameController.GetPickle(picklePrefab, transform.position, Quaternion.identity);
         var pickle = pickleObject.GetComponent<Pickle>();
         var collider = pickleObject.GetComponent<CircleCollider2D>();
         Physics2D.IgnoreCollision(collider, sourceCollider);
@@ -44,7 +54,12 @@ public class Unit : MonoBehaviour
         pickleRb.velocity = pickleVelocity;
 
         // Assign a random rotation
-        pickleRb.angularVelocity = UnityEngine.Random.Range(-45, 45);
+        float magnitude = UnityEngine.Random.Range(0, 2);
+        if (magnitude == 0)
+        {
+            magnitude = -1;
+        }
+        pickleRb.angularVelocity = magnitude * UnityEngine.Random.Range(80, 300f);
     }
 
     public void Damage(float amount)
