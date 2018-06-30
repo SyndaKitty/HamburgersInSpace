@@ -16,8 +16,9 @@ public class Unit : MonoBehaviour
     public float StartingPickleVelocity;
     public float StartingRateOfFire;
     public float StartingBunShiledDistance;
+    public float MaxHealth;
+    public float Health;
 
-    float Health;
     float PickleVelocity;
     float RateOfFire;
     float BunShiledDistance;
@@ -36,7 +37,7 @@ public class Unit : MonoBehaviour
         this.enemy = enemy;
         this.OnDeathCallback = OnDeathCallback;
         shielding = false;
-        Health = StartingHealth;
+        Health = MaxHealth = StartingHealth;
         RateOfFire = StartingRateOfFire;
         PickleVelocity = StartingPickleVelocity;
         BunShiledDistance = StartingBunShiledDistance;

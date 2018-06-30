@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4890661041262136}
   - component: {fileID: 212577914322483856}
   - component: {fileID: 68891401224661288}
+  - component: {fileID: 114552197160239896}
   m_Layer: 10
   m_Name: ShiledBun
   m_TagString: Untagged
@@ -65,6 +66,17 @@ EdgeCollider2D:
   - {x: 0.3378626, y: 0.013274729}
   - {x: 0.31515992, y: -0.079750866}
   - {x: 0.1894797, y: -0.131421}
+--- !u!114 &114552197160239896
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1079464791720452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3027cb389ca719499b736f7b4fb6b25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212577914322483856
 SpriteRenderer:
   m_ObjectHideFlags: 1

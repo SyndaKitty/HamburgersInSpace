@@ -15,6 +15,12 @@ public class GameController : MonoBehaviour
     public GameObject PauseCanvas;
     public Button QuitButton;
     public Button MenuButton;
+    public GameObject HealthBarPrefab;
+    public GameObject HealthPointPrefab;
+    public GameObject UICanvas;
+    public Unit PlayerUnit;
+
+    HealthBar healthBar;
 
     void Awake()
     {
@@ -26,7 +32,14 @@ public class GameController : MonoBehaviour
         QuitButton.onClick.AddListener(QuitGame);
         MenuButton.onClick.AddListener(GoToMainMenu);
     }
-    
+
+    void Start()
+    {
+        var healthBarObject = Instantiate(HealthBarPrefab, UICanvas.transform);
+        healthBar = healthBarObject.GetComponent<HealthBar>();
+        healthBar.Initialize(PlayerUnit, HealthPointPrefab);
+    }
+
     void Update ()
     {
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Start"))
@@ -37,6 +50,11 @@ public class GameController : MonoBehaviour
             QuitGamePointer.SetActive(gamePaused);
             Time.timeScale = gamePaused ? 0f : 1;
         }
+    }
+
+    private void LateUpdate()
+    {
+        healthBar.HealthUpdate();
     }
 
     void QuitGame()

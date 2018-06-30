@@ -57,10 +57,14 @@ public class Pickle : MonoBehaviour
         currentLifetime = 0;
 
         var unit = collision.collider.GetComponent<Unit>();
-        if (unit == null)
+        if (unit != null)
         {
-            return;
+            unit.Damage(1);
         }
-        unit.Damage(1);
+        else
+        {
+            var shield = collision.collider.GetComponent<Shield>();
+            shield.Hit();
+        }
     }
 }
