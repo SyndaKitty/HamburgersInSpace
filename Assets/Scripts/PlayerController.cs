@@ -31,6 +31,10 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         var targetVelocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        Vector2 rightAnalog = new Vector2(Input.GetAxisRaw("RAnalogX"), Input.GetAxisRaw("RAnalogY"));
+
+        Debug.Log(rightAnalog);
+
         Vector2 force = Speed * targetVelocity - rb.velocity;
         rb.AddForce(force * Acceleration);
 
@@ -39,6 +43,10 @@ public class PlayerController : MonoBehaviour
             var target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             // TODO
             unit.Shoot(collider, target);
+        }
+        else if (rightAnalog != Vector2.zero)
+        {
+            unit.Shoot(collider, rightAnalog.normalized + (Vector2)transform.position);
         }
     }
 }
