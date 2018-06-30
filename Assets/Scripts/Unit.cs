@@ -22,6 +22,7 @@ public class Unit : MonoBehaviour
     bool shielding;
     GameObject bunShiled;
     Collider2D bunShiledCollider;
+    Collider2D burgerCollider;
 
     public void Initialize(float health, GameObject picklePrefab, float rateOfFire, Action OnDeathCallback = null)
     {
@@ -34,8 +35,9 @@ public class Unit : MonoBehaviour
         sr.sprite = FullBurgerSprite;
 
         bunShiled = Instantiate(BunShiledPrefab);
-        bunShiledCollider = GetComponent<BoxCollider2D>();
-        
+        bunShiledCollider = bunShiled.GetComponent<EdgeCollider2D>();
+        burgerCollider = GetComponent<CircleCollider2D>();
+
         bunShiled.SetActive(false);
     }
 
@@ -54,7 +56,7 @@ public class Unit : MonoBehaviour
         bunShiled.transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(targetDifference.y, targetDifference.x) * Mathf.Rad2Deg - 90, Vector3.forward);
     }
 
-    public void Shoot(Collider2D burgerCollider, Vector3 target)
+    public void Shoot(Vector3 target)
     {
         if (countDown > 0)
         {

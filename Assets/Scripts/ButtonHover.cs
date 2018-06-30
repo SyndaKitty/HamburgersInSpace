@@ -15,11 +15,13 @@ public class ButtonHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        renderer.enabled = true;
+        if (renderer != null)
+            renderer.enabled = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        renderer.enabled = false;
+        if (renderer != null)
+            renderer.enabled = false;
     }
 }

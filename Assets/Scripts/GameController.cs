@@ -9,35 +9,44 @@ public class GameController : MonoBehaviour
     public static GameController Instance { get; private set; }
     static Stack<GameObject> pooledPickles = new Stack<GameObject>();
 
-    public Button StartButton;
+    public bool gamePaused;
+    public GameObject MainMenuPointer;
+    public GameObject QuitGamePointer;
+    public GameObject PauseCanvas;
     public Button QuitButton;
+    public Button MenuButton;
 
-    private void Awake()
+    void Awake()
     {
         Instance = this;
-        DontDestroyOnLoad(this);
-        StartButton.onClick.AddListener(StartGame);
+        gamePaused = false;
+        MainMenuPointer.SetActive(false);
+        QuitGamePointer.SetActive(false);
+        PauseCanvas.SetActive(false);
         QuitButton.onClick.AddListener(QuitGame);
-    }
-
-    void Start ()
-    {
-        
+        MenuButton.onClick.AddListener(GoToMainMenu);
     }
     
     void Update ()
     {
-        
-    }
-
-    void StartGame()
-    {
-        SceneManager.LoadScene(1);
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Start"))
+        {
+            gamePaused = !gamePaused;
+            PauseCanvas.SetActive(gamePaused);
+            MainMenuPointer.SetActive(gamePaused);
+            QuitGamePointer.SetActive(gamePaused);
+            Time.timeScale = gamePaused ? 0f : 1;
+        }
     }
 
     void QuitGame()
     {
         Application.Quit();
+    }
+
+    void GoToMainMenu()
+    {
+        SceneManager.LoadSceneAsync(0);
     }
 
     public static void Deactivate(Pickle pickle)
