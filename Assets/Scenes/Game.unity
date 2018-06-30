@@ -200,8 +200,8 @@ GameObject:
   - component: {fileID: 601583841}
   - component: {fileID: 601583840}
   - component: {fileID: 601583842}
-  - component: {fileID: 601583839}
   - component: {fileID: 601583843}
+  - component: {fileID: 601583839}
   - component: {fileID: 601583844}
   m_Layer: 0
   m_Name: Hamburger-top
@@ -321,6 +321,11 @@ MonoBehaviour:
   PickleVelocity: 10
   RateOfFire: 0
   countDown: 0
+  BunShiledDistance: 0.5
+  FullBurgerSprite: {fileID: 21300000, guid: dc35555935caa1043ae03fe21d6e2cb0, type: 3}
+  SplitBurgerSprite: {fileID: 21300000, guid: aad371fb6de039e42a5214ef1cfd0f95, type: 3}
+  BunShiledPrefab: {fileID: 1079464791720452, guid: 5feac8d9a65540d408bdaf2866034037,
+    type: 2}
 --- !u!58 &601583844
 CircleCollider2D:
   m_ObjectHideFlags: 0

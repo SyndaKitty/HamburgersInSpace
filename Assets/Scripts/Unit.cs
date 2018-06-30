@@ -10,21 +10,45 @@ public class Unit : MonoBehaviour
     public float PickleVelocity;
     public float RateOfFire;
     public float countDown;
+    public float BunShiledDistance;
+    public Sprite FullBurgerSprite;
+    public Sprite SplitBurgerSprite;
+    public GameObject BunShiledPrefab;
+    public Vector2 BunShiledOffset;
+
     Action OnDeathCallback;
     GameObject picklePrefab;
+    SpriteRenderer sr;
+    bool shielding;
+    GameObject bunShiled;
 
     public void Initialize(float health, GameObject picklePrefab, float rateOfFire, Action OnDeathCallback = null)
     {
+        sr = GetComponent<SpriteRenderer>();
         this.Health = health;
         this.picklePrefab = picklePrefab;
         this.OnDeathCallback = OnDeathCallback;
         this.RateOfFire = rateOfFire;
+        shielding = false;
+        sr.sprite = FullBurgerSprite;
+
+        bunShiled = Instantiate(BunShiledPrefab);
+        bunShiled.SetActive(false);
     }
 
-    void Update()
+    public void CustomUpdate()
     {
+        SetShielding(false);
         countDown -= Time.deltaTime;
         if (countDown < 0) countDown = 0;
+    }
+
+    public void Shield(Vector2 target)
+    {
+        SetShielding(true);
+        var targetDifference = target - (Vector2)transform.position;
+        bunShiled.transform.position = targetDifference.normalized * BunShiledDistance + (Vector2)transform.position + BunShiledOffset;
+        bunShiled.transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(targetDifference.y, targetDifference.x) * Mathf.Rad2Deg - 90, Vector3.forward);
     }
 
     public void Shoot(Collider2D sourceCollider, Vector3 target)
@@ -74,5 +98,19 @@ public class Unit : MonoBehaviour
     public void Die()
     {
         OnDeathCallback();
+    }
+
+    void SetShielding(bool shielding)
+    {
+        this.shielding = shielding;
+        if (shielding)
+        {
+            sr.sprite = SplitBurgerSprite;
+        }
+        else
+        {
+            sr.sprite = FullBurgerSprite;
+        }
+        bunShiled.SetActive(shielding);
     }
 }
