@@ -20,7 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4890661041262136}
   - component: {fileID: 212577914322483856}
-  m_Layer: 0
+  - component: {fileID: 68891401224661288}
+  m_Layer: 10
   m_Name: ShiledBun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33,13 +34,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1079464791720452}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.86295235, w: 0.5052854}
+  m_LocalPosition: {x: 2.748, y: 1.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 119.299}
+--- !u!68 &68891401224661288
+EdgeCollider2D:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1079464791720452}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0.04
+  m_Points:
+  - {x: -0.11851989, y: -0.14836147}
+  - {x: -0.25528315, y: -0.13872969}
+  - {x: -0.33514515, y: -0.023349494}
+  - {x: -0.23044921, y: 0.10625148}
+  - {x: 0.017220441, y: 0.14276221}
+  - {x: 0.25681362, y: 0.10661551}
+  - {x: 0.3378626, y: 0.013274729}
+  - {x: 0.31515992, y: -0.079750866}
+  - {x: 0.1894797, y: -0.131421}
 --- !u!212 &212577914322483856
 SpriteRenderer:
   m_ObjectHideFlags: 1

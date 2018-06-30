@@ -13,12 +13,12 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D rb;
     Unit unit;
-    CircleCollider2D collider;
+    CircleCollider2D burgerCollider;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        collider = GetComponent<CircleCollider2D>();
+        burgerCollider = GetComponent<CircleCollider2D>();
         unit = GetComponent<Unit>();
         unit.Initialize(PlayerHealth, PicklePrefab, RateOfFire, OnDeath);
     }
@@ -50,11 +50,11 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetMouseButton(0))
         {
-            unit.Shoot(collider, mouseTarget);
+            unit.Shoot(burgerCollider, mouseTarget);
         }
         else if (rightAnalog != Vector2.zero)
         {
-            unit.Shoot(collider, rightAnalog.normalized + (Vector2)transform.position);
+            unit.Shoot(burgerCollider, rightAnalog.normalized + (Vector2)transform.position);
         }
     }
 }

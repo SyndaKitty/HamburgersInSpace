@@ -21,6 +21,7 @@ public class Unit : MonoBehaviour
     SpriteRenderer sr;
     bool shielding;
     GameObject bunShiled;
+    Collider2D bunShiledCollider;
 
     public void Initialize(float health, GameObject picklePrefab, float rateOfFire, Action OnDeathCallback = null)
     {
@@ -33,6 +34,8 @@ public class Unit : MonoBehaviour
         sr.sprite = FullBurgerSprite;
 
         bunShiled = Instantiate(BunShiledPrefab);
+        bunShiledCollider = GetComponent<BoxCollider2D>();
+        
         bunShiled.SetActive(false);
     }
 
@@ -51,7 +54,7 @@ public class Unit : MonoBehaviour
         bunShiled.transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(targetDifference.y, targetDifference.x) * Mathf.Rad2Deg - 90, Vector3.forward);
     }
 
-    public void Shoot(Collider2D sourceCollider, Vector3 target)
+    public void Shoot(Collider2D burgerCollider, Vector3 target)
     {
         if (countDown > 0)
         {
@@ -69,7 +72,8 @@ public class Unit : MonoBehaviour
         var pickleObject = GameController.GetPickle(picklePrefab, transform.position, Quaternion.identity);
         var pickle = pickleObject.GetComponent<Pickle>();
         var collider = pickleObject.GetComponent<CircleCollider2D>();
-        Physics2D.IgnoreCollision(collider, sourceCollider);
+        Physics2D.IgnoreCollision(collider, bunShiledCollider);
+        Physics2D.IgnoreCollision(collider, burgerCollider);
 
         // Shoot our pickle
         Vector2 forceDirection = target - pickleObject.transform.position;

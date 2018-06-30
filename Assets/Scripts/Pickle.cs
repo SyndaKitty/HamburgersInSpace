@@ -49,6 +49,8 @@ public class Pickle : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        currentLifetime = 0;
+
         var unit = collision.collider.GetComponent<Unit>();
         if (unit == null)
         {
