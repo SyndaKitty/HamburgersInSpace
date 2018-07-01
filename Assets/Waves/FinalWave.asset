@@ -9,15 +9,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 618a9c77827855f40ae4d50a92b6341b, type: 3}
-  m_Name: Wave4
+  m_Name: FinalWave
   m_EditorClassIdentifier: 
-  stationary: {x: 10, y: 10}
-  moving: {x: 10, y: 10}
-  RateOfFire: {x: 0.8, y: 0.9}
-  Health: {x: 3, y: 4}
-  PickleVelocity: {x: 8, y: 8}
-  MinBurstSize: {x: 2, y: 3}
-  BurstRange: {x: 1, y: 1}
-  BurstTimeout: {x: 3, y: 6}
+  stationary: {x: 15, y: 15}
+  moving: {x: 15, y: 15}
+  RateOfFire: {x: 0.2, y: 0.3}
+  Health: {x: 3, y: 8}
+  PickleVelocity: {x: 9, y: 13}
+  MinBurstSize: {x: 2, y: 5}
+  BurstRange: {x: 1, y: 2}
+  BurstTimeout: {x: 2, y: 5}
   EnemySpawnWait: {x: 2, y: 2}
-  waveStartAudio: {fileID: 8300000, guid: ea2f3e15a606ef3478e4986e0544deb1, type: 3}
+  waveStartAudio: {fileID: 8300000, guid: 3dfe9098dd7cb8f438a1cb9bc05b6252, type: 3}

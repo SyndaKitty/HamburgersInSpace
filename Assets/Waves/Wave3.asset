@@ -19,5 +19,5 @@ MonoBehaviour:
   MinBurstSize: {x: 3, y: 4}
   BurstRange: {x: 2, y: 2}
   BurstTimeout: {x: 2, y: 5}
-  EnemySpawnWait: {x: 2, y: 2}
+  EnemySpawnWait: {x: 1, y: 1}
   waveStartAudio: {fileID: 8300000, guid: 240dd85d97cdcce448e48263acc91280, type: 3}

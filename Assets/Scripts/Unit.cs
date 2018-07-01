@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
@@ -13,6 +11,7 @@ public class Unit : MonoBehaviour
     public Vector2 BunShiledOffset;
     public AudioClip[] Plops;
     public Vector2 PitchMinMax;
+    public BurgerDebris BurgerDebrisPrefab;
 
     public float StartingHealth;
     public float StartingPickleVelocity;
@@ -20,6 +19,7 @@ public class Unit : MonoBehaviour
     public float StartingBunShiledDistance;
     public float MaxHealth;
     public float Health;
+    public float Innaccuracy;
 
     float PickleVelocity;
     float RateOfFire;
@@ -29,16 +29,20 @@ public class Unit : MonoBehaviour
     bool shielding;
     float countDown;
     Action OnDeathCallback;
+    Action OnHitCallback;
     SpriteRenderer sr;
     GameObject bunShiled;
     Collider2D bunShiledCollider;
     Collider2D burgerCollider;
     AudioSource audioSource;
+    bool invincible;
+    float IFrameFlash;
 
-    public void Initialize(bool enemy, Action OnDeathCallback = null)
+    public void Initialize(bool enemy, Action OnDeathCallback, Action OnHitCallback)
     {
         this.enemy = enemy;
         this.OnDeathCallback = OnDeathCallback;
+        this.OnHitCallback = OnHitCallback;
         shielding = false;
         Health = MaxHealth = StartingHealth;
         RateOfFire = StartingRateOfFire;
@@ -59,6 +63,23 @@ public class Unit : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         bunShiled.SetActive(false);
+    }
+
+   void Update()
+    {
+        if (invincible)
+        {
+            IFrameFlash -= Time.deltaTime;
+            if (IFrameFlash < 0)
+            {
+                IFrameFlash = .1f;
+                sr.enabled = !sr.enabled;
+            }
+        }
+        else
+        {
+            sr.enabled = true;
+        }
     }
 
     public void CustomUpdate()
@@ -101,27 +122,60 @@ public class Unit : MonoBehaviour
         // Shoot our pickle
         Vector2 forceDirection = target - pickleObject.transform.position;
         var pickleVelocity = forceDirection.normalized* PickleVelocity;
+        pickleVelocity += UnityEngine.Random.insideUnitCircle * Innaccuracy;
         var pickleRb = pickleObject.GetComponent<Rigidbody2D>();
         pickleRb.velocity = pickleVelocity;
         return true;
     }
 
+    public void SetInvincible(bool i)
+    {
+        invincible = i;
+        if (i)
+        {
+            IFrameFlash = .1f;
+            Invoke("StopInvincible", 2f);
+        }
+    }
+
+    void StopInvincible()
+    {
+        SetInvincible(false);
+    }
+
     public void Damage(float amount)
     {
+        if (invincible) return;
+        if (OnHitCallback != null)
+        {
+            OnHitCallback();
+        }
+
         Health--;
         if (Health <= 0)
         {
             Die();
         }
+        else if (!enemy)
+        {
+            SetInvincible(true);
+        }
     }
 
     public void Die()
     {
+        for (int i = -1; i < 6; i++)
+        {
+            var chunk = Instantiate(BurgerDebrisPrefab).GetComponent<BurgerDebris>();
+            chunk.transform.position = transform.position;
+            chunk.Initialize(i);
+        }
         OnDeathCallback();
     }
 
     void SetShielding(bool shielding)
     {
+        if (invincible && shielding) return;
         this.shielding = shielding;
         if (shielding)
         {

@@ -92,7 +92,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f23fad0eca91184c9e383a67c6b4cdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FullBurgerSprite: {fileID: 21300000, guid: 8b8a6b8d73af10048a2bc87e24d6bb09, type: 3}
+  FullBurgerSprite: {fileID: 21300000, guid: e6cd2772aed27524fb67a737684d9868, type: 3}
   SplitBurgerSprite: {fileID: 21300000, guid: 7a94dcaa9deb40e4185cf36240640baa, type: 3}
   BunShiledPrefab: {fileID: 1079464791720452, guid: 5feac8d9a65540d408bdaf2866034037,
     type: 2}
@@ -197,12 +197,15 @@ MonoBehaviour:
   Plops:
   - {fileID: 8300000, guid: becbe5d9e80e1324abbc544e1e9627b1, type: 3}
   PitchMinMax: {x: 0.8, y: 1.2}
+  BurgerDebrisPrefab: {fileID: 114471491958447552, guid: 2d213e8ab9fed3a4d87e5c2141dbc154,
+    type: 2}
   StartingHealth: 5
   StartingPickleVelocity: 8
   StartingRateOfFire: 0.3
   StartingBunShiledDistance: 0.5
   MaxHealth: 0
   Health: 0
+  Innaccuracy: 2
 --- !u!114 &114824580869144892
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -216,13 +219,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   State: 0
   StationaryPosition: {x: 0, y: 0}
-  MaxForce: 100
-  Acceleration: 10
-  StartingProximityRadius: {x: 2, y: 4}
-  ProximityRadius: {x: 3, y: 4}
-  ShimmyRange: {x: 1, y: 3}
-  ShimmyTime: 0
-  ShimmyAcceleration: 5
+  Acceleration: 20
+  Speed: 3
+  Aggressiveness: 1
+  Shyness: 0.2
+  Sideness: 0.25
+  Reset: 1
+  PlayerDistanceMinMax: {x: 4, y: 15}
+  PlayerDistanceTowardBehavior: {x: 0, y: 1}
 --- !u!114 &114863257020185942
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
+    public static bool completedTutorial;
     public static GameController Instance { get; private set; }
     static Stack<GameObject> pooledPickles = new Stack<GameObject>();
 
@@ -52,7 +53,7 @@ public class GameController : MonoBehaviour
         MenuButton.onClick.AddListener(GoToMainMenu);
         lives = 3;
         audioSource = GetComponent<AudioSource>();
-        PlayerUnit.Initialize(false, PlayerDied);
+        PlayerUnit.Initialize(false, PlayerDied, null);
     }
 
     void Start()
@@ -62,9 +63,16 @@ public class GameController : MonoBehaviour
         healthBar.Initialize(PlayerUnit, HealthPointPrefab);
 
         playerStart = PlayerUnit.transform.position;
-        tutorialState = 1;
-        SetTutorialText("Move around with W,A,S,D");
-        UICanvas.SetActive(false);
+        if (!completedTutorial)
+        {
+            tutorialState = 1;
+            SetTutorialText("Move around with W,A,S,D");
+            UICanvas.SetActive(false);
+        }
+        else
+        {
+            TutorialComplete();
+        }
     }
 
     void Update ()
@@ -80,7 +88,7 @@ public class GameController : MonoBehaviour
 
         if (gamePaused) return;
 
-        if (tutorialState < 6)
+        if (!completedTutorial)
         {
             textPause = !textPause;
             if (stringShow < tutorialText.Length && textPause) stringShow++;
@@ -93,10 +101,6 @@ public class GameController : MonoBehaviour
                 }
             }
             TutorialTextUI.text = tutorialText.Substring(0, stringShow);
-        }
-        else
-        {
-
         }
     }
 
@@ -145,12 +149,18 @@ public class GameController : MonoBehaviour
             collected++;
             if (collected == 4)
             {
-                tutorialState = 6;
-                tutorialCanvas.gameObject.SetActive(false);
-                WaveController.Instance.SpawnWave();
-                UICanvas.gameObject.SetActive(true);
+                TutorialComplete();
             }
         }
+    }
+
+    void TutorialComplete()
+    {
+        completedTutorial = true;
+        tutorialState = 6;
+        tutorialCanvas.gameObject.SetActive(false);
+        WaveController.Instance.SpawnWave();
+        UICanvas.gameObject.SetActive(true);
     }
 
     public void PlayerDied()
@@ -185,7 +195,8 @@ public class GameController : MonoBehaviour
 
     void SpawnPlayer()
     {
-        PlayerUnit.Initialize(false, PlayerDied);
+        PlayerUnit.Initialize(false, PlayerDied, null);
+        PlayerUnit.SetInvincible(true);
         PlayerObject.transform.position = Vector3.zero;
         PlayerObject.SetActive(true);
     }

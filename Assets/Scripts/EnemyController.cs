@@ -15,19 +15,24 @@ public class EnemyController : MonoBehaviour
     bool bursting;
     public int spawningIndex;
 
-    private void Awake()
-    {
-        Initialize();
-    }
-
     public void Initialize()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         navigator = GetComponent<EnemyNavigator>();
         rb = GetComponent<Rigidbody2D>();
         unit = GetComponent<Unit>();
-        unit.Initialize(true, OnDeath);
-        burstTimeout = Random.Range(BurstTimeoutRange.x, BurstTimeoutRange.x);
+        unit.Initialize(true, OnDeath, OnHit);
+        burstAmount = Random.Range(BurstRange.x, BurstRange.y);
+        burstTimeout = Random.Range(BurstTimeoutRange.x, BurstTimeoutRange.x) * .4f;
+        bursting = true;
+    }
+
+    void OnHit()
+    {
+        if (unit.Health <= 2)
+        {
+            navigator.State = NavigationState.FleeingPlayer;
+        }
     }
 
     void Update()
@@ -46,12 +51,18 @@ public class EnemyController : MonoBehaviour
         if (bursting && player != null && player.activeSelf)
         {
             Vector2 target = player.transform.position;
-            if (unit.Shoot(target))
+            Vector2 direction = target - (Vector2)transform.position;
+            Debug.DrawRay(transform.position, direction * direction.magnitude, Color.white);
+            if (Physics2D.Raycast(transform.position, direction, direction.magnitude, 1))
+            {
+                Debug.Log("Can't shoot");
+            }
+            else if (unit.Shoot(target))
             {
                 burstAmount--;
             }
         }
-        else if (burstTimeout < 0)
+        else if (burstTimeout <= 0)
         {
             burstTimeout = 0;
             bursting = true;
@@ -60,68 +71,11 @@ public class EnemyController : MonoBehaviour
         {
             burstTimeout -= Time.deltaTime;
         }
-
-        if (navigator != null)
-        {
-            ControlNavigation();
-        }
     }
 
     void OnDeath()
     {
         WaveController.Instance.Death(gameObject);
         Destroy(gameObject);
-    }
-
-    void ControlNavigation()
-    {
-        if (navigator.State == NavigationState.Stationary) return;
-        if (player == null)
-        {
-            navigator.State = NavigationState.Neutral;
-        }
-        else
-        {
-            float playerDistance = ( player.transform.position - transform.position).magnitude;
-            if (playerDistance < navigator.ProximityRadius.x)
-            {
-                navigator.State = NavigationState.FleeingPlayer;
-            }
-            else if (playerDistance > navigator.ProximityRadius.y)
-            {
-                navigator.State = NavigationState.SeekingPlayer;
-            }
-            else if (navigator.State == NavigationState.ShimmyLeft)
-            {
-                navigator.ShimmyTime -= Time.deltaTime;
-                if (navigator.ShimmyTime <= 0)
-                {
-                    navigator.State = NavigationState.ShimmyRight;
-                    navigator.ShimmyTime = Random.Range(navigator.ShimmyRange.x, navigator.ShimmyRange.y);
-                }
-            }
-            else if (navigator.State == NavigationState.ShimmyRight)
-            {
-                navigator.ShimmyTime -= Time.deltaTime;
-                if (navigator.ShimmyTime <= 0)
-                {
-                    navigator.State = NavigationState.ShimmyLeft;
-                    navigator.ShimmyTime = Random.Range(navigator.ShimmyRange.x, navigator.ShimmyRange.y);
-                }
-            }
-            else
-            {
-                int leftRight = Random.Range(0, 2);
-                if (leftRight == 0)
-                {
-                    navigator.State = NavigationState.ShimmyLeft;
-                }
-                else
-                {
-                    navigator.State = NavigationState.ShimmyRight;
-                }
-                navigator.ShimmyTime = Random.Range(navigator.ShimmyRange.x, navigator.ShimmyRange.y);
-            }
-        }
     }
 }

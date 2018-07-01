@@ -14,84 +14,127 @@ public class EnemyNavigator : MonoBehaviour
 {
     public NavigationState State;
     public Vector2 StationaryPosition;
-    public float MaxForce;
-    public float Acceleration;
-    public Vector2 StartingProximityRadius;
-    public Vector2 ProximityRadius;
-    public Vector2 ShimmyRange;
-    public float ShimmyTime;
-    public float ShimmyAcceleration;
 
+    public float Acceleration;
+    public float Speed;
+    
+    public float Aggressiveness = 1;
+    public float Shyness = 1;
+    public float Sideness = 1;
+    public float Reset = 1;
+
+    public Vector2 PlayerDistanceMinMax;
+    public Vector2 PlayerDistanceTowardBehavior;
+
+    float directionTime;
     Rigidbody2D rb;
     GameObject player;
     Vector2 force;
+    bool left;
 
     private void Awake()
     {
         Initialize();
+        directionTime = Random.Range(3, 10);
     }
 
     void Initialize()
     {
         StationaryPosition = transform.position;
-        ProximityRadius = StartingProximityRadius;
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
+    void Update()
+    {
+        directionTime -= Time.deltaTime;
+        if (directionTime <= 0)
+        {
+            directionTime = Random.Range(3, 10);
+            left = !left;
+        }
+    }
+
     void LateUpdate()
     {
-        Vector2 force = Vector2.zero;
+        Vector2 target = Vector2.zero;
         if (player == null) State = NavigationState.Neutral;
         switch (State)
         {
             case NavigationState.SeekingPlayer:
             {
-                var targetVelocity = player.transform.position - transform.position;
-                force = (Vector2)targetVelocity - rb.velocity;
+                target += ToTarget(player) * Aggressiveness * DistanceFactor(player, PlayerDistanceMinMax, PlayerDistanceTowardBehavior);
+                target -= ToTarget(player) * Shyness;
+                if (left)
+                {
+                    var shimmyVector = Quaternion.Euler(0, 0, -90) * ToTarget(player) * Sideness;
+                    target += (Vector2)shimmyVector;
+                }
+                else
+                {
+                    var shimmyVector = Quaternion.Euler(0, 0, 90) * ToTarget(player) * Sideness;
+                    target += (Vector2)shimmyVector;
+                }
                 break;
             }
             case NavigationState.FleeingPlayer:
             {
-                var targetVelocity = transform.position - player.transform.position;
-                force = (Vector2)targetVelocity - rb.velocity;
+                target += ToTarget(player) * Aggressiveness * DistanceFactor(player, PlayerDistanceMinMax, PlayerDistanceTowardBehavior);
+                target -= ToTarget(player) * Shyness * 4;
+                if (left)
+                {
+                    var shimmyVector = Quaternion.Euler(0, 0, -90) * ToTarget(player) * Sideness;
+                    target += (Vector2)shimmyVector;
+                }
+                else
+                {
+                    var shimmyVector = Quaternion.Euler(0, 0, 90) * ToTarget(player) * Sideness;
+                    target += (Vector2)shimmyVector;
+                }
                 break;
             }
             case NavigationState.Neutral:
             {
-                var targetVelocity = Vector2.zero;
-                force = (Vector2)targetVelocity - rb.velocity;
-                break;
-            }
-            case NavigationState.ShimmyLeft:
-            {
-                var toPlayer = player.transform.position - transform.position;
-                toPlayer.Normalize();
-                var shimmyVector = Quaternion.Euler(0, 0, -90) * toPlayer * ShimmyAcceleration;
-                force = (Vector2)shimmyVector - rb.velocity;
-                break;
-            }
-            case NavigationState.ShimmyRight:
-            {
-                var toPlayer = player.transform.position - transform.position;
-                toPlayer.Normalize();
-                var shimmyVector = Quaternion.Euler(0, 0, 90) * toPlayer * ShimmyAcceleration;
-                force = (Vector2)shimmyVector - rb.velocity;
+                target -= ToTarget(Vector2.zero) * Reset;
                 break;
             }
             case NavigationState.Stationary:
             {
-                var targetVelocity = StationaryPosition - (Vector2)transform.position;
-                force = (Vector2)targetVelocity - rb.velocity;
+                target += ToTarget(StationaryPosition);
+                target -= ToTarget(player) * Shyness * DistanceFactor(player, PlayerDistanceMinMax, PlayerDistanceTowardBehavior);
                 break;
             }
         }
 
-        force *= Acceleration;
-        if (force.magnitude > MaxForce)
+        Vector2 targetVelocity = target;
+        if (targetVelocity.SqrMagnitude() > 1)
         {
-            force = force.normalized * MaxForce;
+            targetVelocity.Normalize();
         }
-        rb.AddForce(force);
+        Vector2 force = Speed * targetVelocity - rb.velocity;
+        rb.AddForce(force * Acceleration);
+    }
+
+    float DistanceFactor(GameObject go, Vector2 distances, Vector2 multipliers)
+    {
+        return DistanceFactor(go.transform.position, distances, multipliers);
+    }
+
+    float DistanceFactor(Vector2 target, Vector2 distances, Vector2 multipliers)
+    {
+        float distance = (target - (Vector2)transform.position).magnitude;
+        float slope = 1f / (distances.y - distances.x);
+        float fromFactor = (distance - distances.x) * slope;
+        return Mathf.Lerp(multipliers.x, multipliers.y, fromFactor);
+    }
+
+    Vector2 ToTarget(Vector2 target)
+    {
+        return target - (Vector2)transform.position;
+    }
+
+    Vector2 ToTarget(GameObject go)
+    {
+        return go.transform.position - transform.position;
     }
 }
