@@ -43,7 +43,7 @@ public class EnemyController : MonoBehaviour
             bursting = false;
         }
 
-        if (bursting && player != null)
+        if (bursting && player != null && player.activeSelf)
         {
             Vector2 target = player.transform.position;
             if (unit.Shoot(target))

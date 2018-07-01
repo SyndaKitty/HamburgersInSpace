@@ -216,10 +216,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   State: 0
   StationaryPosition: {x: 0, y: 0}
-  MaxForce: 500
-  Acceleration: 20
+  MaxForce: 100
+  Acceleration: 10
   StartingProximityRadius: {x: 2, y: 4}
-  ProximityRadius: {x: 2, y: 4}
+  ProximityRadius: {x: 3, y: 4}
   ShimmyRange: {x: 1, y: 3}
   ShimmyTime: 0
   ShimmyAcceleration: 5

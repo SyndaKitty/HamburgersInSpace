@@ -8,17 +8,10 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     Unit unit;
 
-    private void Awake()
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         unit = GetComponent<Unit>();
-        unit.Initialize(false, OnDeath);
-    }
-
-    void OnDeath()
-    {
-        // TODO: Lose a life? What?
-        Destroy(gameObject);
     }
 
     void Update()

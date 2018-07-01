@@ -19,11 +19,19 @@ public class GameController : MonoBehaviour
     public GameObject HealthPointPrefab;
     public GameObject UICanvas;
     public Unit PlayerUnit;
+    public GameObject PlayerObject;
     public Text TutorialTextUI;
     public Canvas tutorialCanvas;
+    public Image Life1;
+    public Image Life2;
+    public Image Life3;
+    public AudioClip GameOverClip;
 
     HealthBar healthBar;
     int tutorialState;
+    int lives;
+    AudioSource audioSource;
+    bool gameOver;
 
     // Tutorial variables
     Vector3 playerStart;
@@ -41,6 +49,9 @@ public class GameController : MonoBehaviour
         PauseCanvas.SetActive(false);
         QuitButton.onClick.AddListener(QuitGame);
         MenuButton.onClick.AddListener(GoToMainMenu);
+        lives = 3;
+        audioSource = GetComponent<AudioSource>();
+        PlayerUnit.Initialize(false, PlayerDied);
     }
 
     void Start()
@@ -52,12 +63,12 @@ public class GameController : MonoBehaviour
         playerStart = PlayerUnit.transform.position;
         tutorialState = 1;
         SetTutorialText("Move around with W,A,S,D");
-        healthBar.gameObject.SetActive(false);
+        UICanvas.SetActive(false);
     }
 
     void Update ()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Start"))
+        if (!gameOver && Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Start"))
         {
             gamePaused = !gamePaused;
             PauseCanvas.SetActive(gamePaused);
@@ -139,6 +150,42 @@ public class GameController : MonoBehaviour
                 UICanvas.gameObject.SetActive(true);
             }
         }
+    }
+
+    public void PlayerDied()
+    {
+        PlayerObject.SetActive(false);
+        if (lives == 3)
+        {
+            Life3.gameObject.SetActive(false);
+        }
+        else if (lives == 2)
+        {
+            Life2.gameObject.SetActive(false);
+        }
+        else if (lives == 1)
+        {
+            Life1.gameObject.SetActive(false);
+            GameOver();
+            return;
+        }
+        lives--;
+        Invoke("SpawnPlayer", 3);
+    }
+
+    void SpawnPlayer()
+    {
+        PlayerUnit.Initialize(false, PlayerDied);
+        PlayerObject.transform.position = Vector3.zero;
+        PlayerObject.SetActive(true);
+    }
+
+    void GameOver()
+    {
+        gameOver = true;
+        audioSource.clip = GameOverClip;
+        audioSource.Play();
+        Invoke("GoToMainMenu", 3);
     }
 
     void LateUpdate()

@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Name: Wave3
   m_EditorClassIdentifier: 
   stationary: {x: 2, y: 2}
-  moving: {x: 3, y: 4}
-  RateOfFire: {x: 0.5, y: 0.5}
-  Health: {x: 4, y: 6}
-  PickleVelocity: {x: 7, y: 7}
-  MinBurstSize: {x: 2, y: 4}
-  BurstRange: {x: 1, y: 1}
+  moving: {x: 5, y: 5}
+  RateOfFire: {x: 0.4, y: 0.6}
+  Health: {x: 5, y: 7}
+  PickleVelocity: {x: 10, y: 10}
+  MinBurstSize: {x: 3, y: 4}
+  BurstRange: {x: 2, y: 2}
   BurstTimeout: {x: 2, y: 5}
-  EnemySpawnWait: {x: 0, y: 0}
+  EnemySpawnWait: {x: 2, y: 2}
   waveStartAudio: {fileID: 8300000, guid: 240dd85d97cdcce448e48263acc91280, type: 3}
