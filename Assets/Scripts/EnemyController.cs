@@ -13,6 +13,7 @@ public class EnemyController : MonoBehaviour
     float burstTimeout;
     float burstAmount;
     bool bursting;
+    public int spawningIndex;
 
     private void Awake()
     {

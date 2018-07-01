@@ -11,10 +11,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 618a9c77827855f40ae4d50a92b6341b, type: 3}
   m_Name: Wave01
   m_EditorClassIdentifier: 
-  stationary: 0
-  moving: 0
-  RateOfFire: {x: 0, y: 0}
-  Health: {x: 0, y: 0}
-  PickleVelocity: {x: 0, y: 0}
-  BurstSize: {x: 0, y: 0}
+  stationary: {x: 1, y: 1}
+  moving: {x: 0, y: 0}
+  RateOfFire: {x: 0.5, y: 0.5}
+  Health: {x: 3, y: 3}
+  PickleVelocity: {x: 10, y: 10}
+  MinBurstSize: {x: 3, y: 0}
+  BurstRange: {x: 0, y: 0}
   BurstTimeout: {x: 0, y: 0}
+  EnemySpawnWait: {x: 0, y: 0}

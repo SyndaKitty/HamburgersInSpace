@@ -7,8 +7,17 @@ public class Parallax : MonoBehaviour {
     public Transform target;
     public float parralaxFactor;
 
-    void LateUpdate()
+    Vector3 offset;
+
+    void Awake()
     {
-        transform.position = target.transform.position* parralaxFactor;
+        offset = transform.position;    
+    }
+
+    void Update()
+    {
+        if (target == null) return;
+        Vector3 newPosition = (Vector2)target.transform.position * parralaxFactor;
+        transform.position = newPosition + offset;
     }
 }

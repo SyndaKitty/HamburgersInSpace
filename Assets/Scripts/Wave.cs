@@ -12,6 +12,7 @@ public class Wave : ScriptableObject
     public Vector2 MinBurstSize;
     public Vector2 BurstRange;
     public Vector2 BurstTimeout;
+    public Vector2 EnemySpawnWait;
 
     // TODO: Navigation stuff
 }

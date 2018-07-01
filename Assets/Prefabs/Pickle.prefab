@@ -63,7 +63,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 0
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &58357355747228808
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -187,10 +187,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LifeTime: 3
   FadeOutTime: 0.5
-  Plops:
-  - {fileID: 8300000, guid: 7c2a5e0612146c946a9950651cb49c2c, type: 3}
-  - {fileID: 8300000, guid: 10c1de2a52d33844ba62b417429ba684, type: 3}
-  - {fileID: 8300000, guid: 75762fb71cf0d01439a3f7402fc04c46, type: 3}
 --- !u!212 &212622440886464410
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -226,7 +222,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: 0503aec725dcb4f42b4778c11c9bffe9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c55302e224e77c64d93dc3ee76c5dda2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

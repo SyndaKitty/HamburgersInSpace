@@ -5,6 +5,7 @@ public class CameraController : MonoBehaviour
     public float ZoomAcceleration;
     public float ZoomSpeed;
     public Vector2 ZoomMinMax;
+    public GameObject target;
 
     float targetZoom;
     Camera cam;
@@ -15,7 +16,7 @@ public class CameraController : MonoBehaviour
         targetZoom = cam.orthographicSize;
     }
 
-    void LateUpdate()
+    void Update()
     {
         var deltaZoom = Input.GetAxisRaw("Mouse ScrollWheel");
         targetZoom -= deltaZoom * ZoomSpeed;
@@ -25,5 +26,11 @@ public class CameraController : MonoBehaviour
         float currentZoom = cam.orthographicSize;
         currentZoom += force * Time.deltaTime;
         cam.orthographicSize = currentZoom;
+
+        if (target == null) return; 
+        // TODO Smooth camera
+        var focus = target.transform.position;
+        focus.z = -10;
+        transform.position = focus;
     }
 }

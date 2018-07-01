@@ -104,14 +104,6 @@ public class Unit : MonoBehaviour
         var pickleVelocity = forceDirection.normalized* PickleVelocity;
         var pickleRb = pickleObject.GetComponent<Rigidbody2D>();
         pickleRb.velocity = pickleVelocity;
-
-        // Assign a random rotation
-        float magnitude = UnityEngine.Random.Range(0, 2);
-        if (magnitude == 0)
-        {
-            magnitude = -1;
-        }
-        pickleRb.angularVelocity = magnitude * UnityEngine.Random.Range(80, 300f);
         return true;
     }
 

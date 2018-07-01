@@ -187,17 +187,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f23fad0eca91184c9e383a67c6b4cdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FullBurgerSprite: {fileID: 21300000, guid: dc35555935caa1043ae03fe21d6e2cb0, type: 3}
-  SplitBurgerSprite: {fileID: 21300000, guid: aad371fb6de039e42a5214ef1cfd0f95, type: 3}
+  FullBurgerSprite: {fileID: 21300000, guid: 8b8a6b8d73af10048a2bc87e24d6bb09, type: 3}
+  SplitBurgerSprite: {fileID: 21300000, guid: 7a94dcaa9deb40e4185cf36240640baa, type: 3}
   BunShiledPrefab: {fileID: 1079464791720452, guid: 5feac8d9a65540d408bdaf2866034037,
     type: 2}
-  PicklePrefab: {fileID: 1311002381001994, guid: 5b18046c3194a754d9cdfa157cacff58,
+  PicklePrefab: {fileID: 1311002381001994, guid: 3d49d33ef305aed42822d972602d0fa7,
     type: 2}
   BunShiledOffset: {x: 0, y: -0.05}
   Plops:
-  - {fileID: 8300000, guid: 7c2a5e0612146c946a9950651cb49c2c, type: 3}
-  - {fileID: 8300000, guid: 10c1de2a52d33844ba62b417429ba684, type: 3}
-  - {fileID: 8300000, guid: 75762fb71cf0d01439a3f7402fc04c46, type: 3}
+  - {fileID: 8300000, guid: becbe5d9e80e1324abbc544e1e9627b1, type: 3}
   PitchMinMax: {x: 0.8, y: 1.2}
   StartingHealth: 10
   StartingPickleVelocity: 8
@@ -239,6 +237,7 @@ MonoBehaviour:
   Attack: 1
   BurstRange: {x: 6, y: 8}
   BurstTimeoutRange: {x: 2, y: 3}
+  spawningIndex: 0
 --- !u!212 &212358262206953906
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -274,7 +273,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: dc35555935caa1043ae03fe21d6e2cb0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8b8a6b8d73af10048a2bc87e24d6bb09, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

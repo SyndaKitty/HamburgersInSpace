@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class WaveController : MonoBehaviour
@@ -9,14 +10,23 @@ public class WaveController : MonoBehaviour
     public GameObject MovingEnemyPrefab;
 
     HashSet<GameObject> livingEnemies = new HashSet<GameObject>();
+    List<Transform> spawningLocations;
 
     void Awake()
     {
-        Instance = this;    
+        Instance = this;
+        spawningLocations = gameObject.GetComponentsInChildren<Transform>().ToList();
+        spawningLocations.Remove(gameObject.transform);
     }
 
     public void SpawnWave(Wave wave)
     {
+        HashSet<int> remainingLocations = new HashSet<int>();
+        for (int i = 0; i < spawningLocations.Count; i++)
+        {
+            remainingLocations.Add(i);
+        }
+
         livingEnemies = new HashSet<GameObject>();
         int stationary = RandomFromRangeInt(wave.stationary);
         for (int i = 0; i < stationary; i++)
@@ -24,7 +34,8 @@ public class WaveController : MonoBehaviour
             var enemyObject = Instantiate(StationaryEnemyPrefab);
             var controller = enemyObject.GetComponent<EnemyController>();
             var unit = enemyObject.GetComponent<Unit>();
-            SetProperties(enemyObject, controller, unit, wave);
+            var navigator = enemyObject.GetComponent<EnemyNavigator>();
+            SetProperties(remainingLocations, wave, enemyObject, controller, unit, navigator, true);
         }
 
         int moving = RandomFromRangeInt(wave.moving);
@@ -33,12 +44,22 @@ public class WaveController : MonoBehaviour
             var enemyObject = Instantiate(MovingEnemyPrefab);
             var controller = enemyObject.GetComponent<EnemyController>();
             var unit = enemyObject.GetComponent<Unit>();
-            SetProperties(enemyObject, controller, unit, wave);
+            var navigator = enemyObject.GetComponent<EnemyNavigator>();
+            SetProperties(remainingLocations, wave, enemyObject, controller, unit, navigator, false);
         }
     }
 
-    void SetProperties(GameObject enemyObject, EnemyController controller, Unit unit, Wave wave)
+    void SetProperties(HashSet<int> remainingLocations, Wave wave, GameObject enemyObject, EnemyController controller, Unit unit, EnemyNavigator navigator, bool stationary)
     {
+        int remainingIndex = Random.Range(0, remainingLocations.Count);
+        int spawningIndex = remainingLocations.ToArray()[remainingIndex];
+        var spawningLocation = spawningLocations[spawningIndex];
+        remainingLocations.Remove(spawningIndex);
+        controller.spawningIndex = spawningIndex;
+
+        enemyObject.transform.position = spawningLocation.position;
+        navigator.StationaryPosition = spawningLocation.position;
+
         unit.StartingRateOfFire = RandomFromRange(wave.RateOfFire);
         unit.StartingHealth = RandomFromRangeInt(wave.Health);
         unit.StartingPickleVelocity = RandomFromRange(wave.PickleVelocity);
@@ -56,6 +77,7 @@ public class WaveController : MonoBehaviour
         if (livingEnemies.Count == 0)
         {
             // TODO: The wave is over
+            Debug.Log("Wave over");
         }
     }
 
