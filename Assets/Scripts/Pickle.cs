@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
 public class Pickle : MonoBehaviour
 {
     public float LifeTime = 3f;
     public float FadeOutTime = .5f;
+    
 
     float currentLifetime;
     float currentFadeTime;
@@ -22,7 +21,7 @@ public class Pickle : MonoBehaviour
         sr.color = newColor;
     }
 
-    void Start()
+    void Awake()
     {
         Initialize();
     }
@@ -60,11 +59,14 @@ public class Pickle : MonoBehaviour
         if (unit != null)
         {
             unit.Damage(1);
+            return;
         }
-        else
+
+        var shield = collision.collider.GetComponent<Shield>();
+        if (shield != null)
         {
-            var shield = collision.collider.GetComponent<Shield>();
             shield.Hit();
+            return;
         }
     }
 }

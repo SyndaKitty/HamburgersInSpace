@@ -68,6 +68,7 @@ public class EnemyController : MonoBehaviour
 
     void OnDeath()
     {
+        WaveController.Instance.Death(gameObject);
         Destroy(gameObject);
     }
 

@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
     public GameObject HealthPointPrefab;
     public GameObject UICanvas;
     public Unit PlayerUnit;
+    public Wave[] waves;
 
     HealthBar healthBar;
 
@@ -38,6 +39,8 @@ public class GameController : MonoBehaviour
         var healthBarObject = Instantiate(HealthBarPrefab, UICanvas.transform);
         healthBar = healthBarObject.GetComponent<HealthBar>();
         healthBar.Initialize(PlayerUnit, HealthPointPrefab);
+
+        WaveController.Instance.SpawnWave(waves[0]);
     }
 
     void Update ()
