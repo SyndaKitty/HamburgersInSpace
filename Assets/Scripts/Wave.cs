@@ -13,6 +13,7 @@ public class Wave : ScriptableObject
     public Vector2 BurstRange;
     public Vector2 BurstTimeout;
     public Vector2 EnemySpawnWait;
+    public AudioClip waveStartAudio;
 
     // TODO: Navigation stuff
 }

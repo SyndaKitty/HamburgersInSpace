@@ -33,7 +33,7 @@ public class Unit : MonoBehaviour
     GameObject bunShiled;
     Collider2D bunShiledCollider;
     Collider2D burgerCollider;
-    AudioSource audio;
+    AudioSource audioSource;
 
     public void Initialize(bool enemy, Action OnDeathCallback = null)
     {
@@ -54,9 +54,9 @@ public class Unit : MonoBehaviour
         }
 
         bunShiled = Instantiate(BunShiledPrefab);
-        bunShiledCollider = bunShiled.GetComponent<EdgeCollider2D>();
+        bunShiledCollider = bunShiled.GetComponent<BoxCollider2D>();
         burgerCollider = GetComponent<CircleCollider2D>();
-        audio = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
 
         bunShiled.SetActive(false);
     }
@@ -94,7 +94,6 @@ public class Unit : MonoBehaviour
         PlayPlop();
 
         var pickleObject = GameController.GetPickle(PicklePrefab, transform.position, Quaternion.identity, enemy);
-        var pickle = pickleObject.GetComponent<Pickle>();
         var collider = pickleObject.GetComponent<CircleCollider2D>();
         Physics2D.IgnoreCollision(collider, bunShiledCollider);
         Physics2D.IgnoreCollision(collider, burgerCollider);
@@ -139,8 +138,8 @@ public class Unit : MonoBehaviour
     {
         var pitch = UnityEngine.Random.Range(PitchMinMax.x, PitchMinMax.y);
         var plop = Plops[UnityEngine.Random.Range(0, Plops.Length)];
-        audio.clip = plop;
-        audio.pitch = pitch;
-        audio.Play();
+        audioSource.clip = plop;
+        audioSource.pitch = pitch;
+        audioSource.Play();
     }
 }

@@ -36,18 +36,22 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButton(1))
         {
             unit.Shield(mouseTarget);
+            GameController.Instance.PlayerBlocked();
         }
         else if ((Input.GetAxisRaw("TriggerL") > 0 || Input.GetAxisRaw("TriggerR") > 0) && rightAnalog != Vector2.zero)
         {
             unit.Shield(rightAnalog.normalized + (Vector2)transform.position);
+            GameController.Instance.PlayerBlocked();
         }
         else if (Input.GetMouseButton(0))
         {
             unit.Shoot(mouseTarget);
+            GameController.Instance.PlayerShot();
         }
         else if (rightAnalog != Vector2.zero)
         {
             unit.Shoot(rightAnalog.normalized + (Vector2)transform.position);
+            GameController.Instance.PlayerShot();
         }
     }
 }

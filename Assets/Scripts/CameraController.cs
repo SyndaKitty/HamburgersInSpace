@@ -16,9 +16,13 @@ public class CameraController : MonoBehaviour
         targetZoom = cam.orthographicSize;
     }
 
-    void Update()
+    void LateUpdate()
     {
         var deltaZoom = Input.GetAxisRaw("Mouse ScrollWheel");
+        if (deltaZoom != 0)
+        {
+            GameController.Instance.PlayerScrolled();
+        }
         targetZoom -= deltaZoom * ZoomSpeed;
         targetZoom = Mathf.Clamp(targetZoom, ZoomMinMax.x, ZoomMinMax.y);
         float force = targetZoom - cam.orthographicSize;

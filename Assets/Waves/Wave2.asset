@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 618a9c77827855f40ae4d50a92b6341b, type: 3}
+  m_Name: Wave2
+  m_EditorClassIdentifier: 
+  stationary: {x: 3, y: 3}
+  moving: {x: 1, y: 1}
+  RateOfFire: {x: 0.4, y: 0.4}
+  Health: {x: 3, y: 4}
+  PickleVelocity: {x: 6, y: 6}
+  MinBurstSize: {x: 2, y: 3}
+  BurstRange: {x: 1, y: 2}
+  BurstTimeout: {x: 3, y: 5}
+  EnemySpawnWait: {x: 0, y: 0}
+  waveStartAudio: {fileID: 8300000, guid: 7b2b9d3504a1a0d42a2d494eb6798fde, type: 3}

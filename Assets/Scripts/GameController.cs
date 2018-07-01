@@ -19,9 +19,18 @@ public class GameController : MonoBehaviour
     public GameObject HealthPointPrefab;
     public GameObject UICanvas;
     public Unit PlayerUnit;
-    public Wave[] waves;
+    public Text TutorialTextUI;
+    public Canvas tutorialCanvas;
 
     HealthBar healthBar;
+    int tutorialState;
+
+    // Tutorial variables
+    Vector3 playerStart;
+    int stringShow;
+    string tutorialText;
+    int collected;
+    bool textPause;
 
     void Awake()
     {
@@ -40,7 +49,10 @@ public class GameController : MonoBehaviour
         healthBar = healthBarObject.GetComponent<HealthBar>();
         healthBar.Initialize(PlayerUnit, HealthPointPrefab);
 
-        WaveController.Instance.SpawnWave(waves[0]);
+        playerStart = PlayerUnit.transform.position;
+        tutorialState = 1;
+        SetTutorialText("Move around with W,A,S,D");
+        healthBar.gameObject.SetActive(false);
     }
 
     void Update ()
@@ -53,9 +65,83 @@ public class GameController : MonoBehaviour
             QuitGamePointer.SetActive(gamePaused);
             Time.timeScale = gamePaused ? 0f : 1;
         }
+
+        if (gamePaused) return;
+
+        if (tutorialState < 6)
+        {
+            textPause = !textPause;
+            if (stringShow < tutorialText.Length && textPause) stringShow++;
+            if (tutorialState == 1)
+            {
+                if ((PlayerUnit.transform.position - playerStart).magnitude > 1)
+                {
+                    SetTutorialText("Left click to shoot");
+                    tutorialState = 2;
+                }
+            }
+            TutorialTextUI.text = tutorialText.Substring(0, stringShow);
+        }
+        else
+        {
+
+        }
     }
 
-    private void LateUpdate()
+    void SetTutorialText(string text)
+    {
+        tutorialText = text;
+        stringShow = 0;
+    }
+
+    public void PlayerShot()
+    {
+        if (tutorialState == 2)
+        {
+            tutorialState = 3;
+            SetTutorialText("Block enemy fire with RMB");
+        }
+    }
+
+    public void PlayerBlocked()
+    {
+        if (tutorialState == 3)
+        {
+            tutorialState = 4;
+            SetTutorialText("Zoom in or out with the scroll wheel");
+        }
+    }
+
+    public void PlayerScrolled()
+    {
+        if (tutorialState == 4)
+        {
+            tutorialState = 5;
+            SetTutorialText("Pick up collectibles to heal or powerup");
+            // TODO: Remove stub
+            PlayerPickedUpCollectible();
+            PlayerPickedUpCollectible();
+            PlayerPickedUpCollectible();
+            PlayerPickedUpCollectible();
+        }
+    }
+
+    public void PlayerPickedUpCollectible()
+    {
+        if (tutorialState == 5)
+        {
+            collected++;
+            if (collected == 4)
+            {
+                tutorialState = 6;
+                tutorialCanvas.gameObject.SetActive(false);
+                WaveController.Instance.SpawnWave();
+                UICanvas.gameObject.SetActive(true);
+            }
+        }
+    }
+
+    void LateUpdate()
     {
         healthBar.HealthUpdate();
     }

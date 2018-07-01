@@ -5,23 +5,23 @@ using UnityEngine.UI;
 public class ButtonHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public GameObject Pointer;
-    SpriteRenderer renderer;
+    SpriteRenderer srenderer;
 
     void Awake()
     {
-        renderer = Pointer.GetComponent<SpriteRenderer>();
-        renderer.enabled = false;
+        srenderer = Pointer.GetComponent<SpriteRenderer>();
+        srenderer.enabled = false;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (renderer != null)
-            renderer.enabled = true;
+        if (srenderer != null)
+            srenderer.enabled = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (renderer != null)
-            renderer.enabled = false;
+        if (srenderer != null)
+            srenderer.enabled = false;
     }
 }

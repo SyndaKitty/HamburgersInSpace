@@ -8,19 +8,28 @@ public class WaveController : MonoBehaviour
 
     public GameObject StationaryEnemyPrefab;
     public GameObject MovingEnemyPrefab;
+    public Wave[] waves;
 
     HashSet<GameObject> livingEnemies = new HashSet<GameObject>();
     List<Transform> spawningLocations;
+    AudioClip[] waveStartAudio;
+    AudioSource audio;
+    int currentWave;
 
     void Awake()
     {
         Instance = this;
         spawningLocations = gameObject.GetComponentsInChildren<Transform>().ToList();
         spawningLocations.Remove(gameObject.transform);
+        audio = GetComponent<AudioSource>();
     }
 
-    public void SpawnWave(Wave wave)
+    public void SpawnWave()
     {
+        var wave = waves[currentWave++];
+        audio.clip = wave.waveStartAudio; 
+        audio.Play();
+
         HashSet<int> remainingLocations = new HashSet<int>();
         for (int i = 0; i < spawningLocations.Count; i++)
         {
@@ -76,8 +85,11 @@ public class WaveController : MonoBehaviour
         livingEnemies.Remove(enemy);
         if (livingEnemies.Count == 0)
         {
-            // TODO: The wave is over
-            Debug.Log("Wave over");
+            Debug.Log("Wave " + currentWave + " over");
+            if (currentWave < waves.Length)
+            {
+                Invoke("SpawnWave", 5f);
+            }
         }
     }
 
