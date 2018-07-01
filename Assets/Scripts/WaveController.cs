@@ -94,6 +94,7 @@ public class WaveController : MonoBehaviour
             {
                 audioSource.clip = win;
                 audioSource.Play();
+                GameController.Instance.Win();
             }
         }
     }

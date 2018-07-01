@@ -39,6 +39,7 @@ public class GameController : MonoBehaviour
     string tutorialText;
     int collected;
     bool textPause;
+    bool win;
 
     void Awake()
     {
@@ -166,11 +167,20 @@ public class GameController : MonoBehaviour
         else if (lives == 1)
         {
             Life1.gameObject.SetActive(false);
-            GameOver();
-            return;
+            if (!win)
+            {
+                GameOver();
+                return;
+            }
         }
         lives--;
         Invoke("SpawnPlayer", 3);
+    }
+
+    public void Win()
+    {
+        win = true;
+        Invoke("GoToMainMenu", 4);
     }
 
     void SpawnPlayer()
@@ -200,6 +210,12 @@ public class GameController : MonoBehaviour
 
     void GoToMainMenu()
     {
+        while (pooledPickles.Count > 0)
+        {
+            var pickle = pooledPickles.Pop();
+            Destroy(pickle.gameObject);
+        }
+
         SceneManager.LoadSceneAsync(0);
     }
 
