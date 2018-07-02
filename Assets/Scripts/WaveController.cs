@@ -16,7 +16,8 @@ public class WaveController : MonoBehaviour
     List<Transform> spawningLocations;
     AudioClip[] waveStartAudio;
     AudioSource audioSource;
-    int currentWave;
+    Wave currentWave;
+    int currentWaveIndex;
     float waitTime;
 
     void Awake()
@@ -30,8 +31,8 @@ public class WaveController : MonoBehaviour
     public void SpawnWave()
     {
         waitTime = 0;
-        var wave = waves[currentWave++];
-        audioSource.clip = wave.waveStartAudio; 
+        currentWave = waves[currentWaveIndex++];
+        audioSource.clip = currentWave.WaveStartAudio; 
         audioSource.Play();
 
         HashSet<int> remainingLocations = new HashSet<int>();
@@ -41,8 +42,8 @@ public class WaveController : MonoBehaviour
         }
 
         livingEnemies = new HashSet<GameObject>();
-        int stationary = RandomFromRangeInt(wave.stationary);
-        int moving = RandomFromRangeInt(wave.moving);
+        int stationary = RandomFromRangeInt(currentWave.stationary);
+        int moving = RandomFromRangeInt(currentWave.moving);
 
         while (stationary > 0 && moving > 0)
         {
@@ -53,7 +54,7 @@ public class WaveController : MonoBehaviour
                 var controller = enemyObject.GetComponent<EnemyController>();
                 var unit = enemyObject.GetComponent<Unit>();
                 var navigator = enemyObject.GetComponent<EnemyNavigator>();
-                SetProperties(remainingLocations, wave, enemyObject, controller, unit, navigator, true);
+                SetProperties(remainingLocations, currentWave, enemyObject, controller, unit, navigator, true);
                 stationary--;
             }
             else
@@ -62,7 +63,7 @@ public class WaveController : MonoBehaviour
                 var controller = enemyObject.GetComponent<EnemyController>();
                 var unit = enemyObject.GetComponent<Unit>();
                 var navigator = enemyObject.GetComponent<EnemyNavigator>();
-                SetProperties(remainingLocations, wave, enemyObject, controller, unit, navigator, false);
+                SetProperties(remainingLocations, currentWave, enemyObject, controller, unit, navigator, false);
                 moving--;
             }
         }
@@ -73,7 +74,7 @@ public class WaveController : MonoBehaviour
             var controller = enemyObject.GetComponent<EnemyController>();
             var unit = enemyObject.GetComponent<Unit>();
             var navigator = enemyObject.GetComponent<EnemyNavigator>();
-            SetProperties(remainingLocations, wave, enemyObject, controller, unit, navigator, true);
+            SetProperties(remainingLocations, currentWave, enemyObject, controller, unit, navigator, true);
             stationary--;
         }
 
@@ -83,7 +84,7 @@ public class WaveController : MonoBehaviour
             var controller = enemyObject.GetComponent<EnemyController>();
             var unit = enemyObject.GetComponent<Unit>();
             var navigator = enemyObject.GetComponent<EnemyNavigator>();
-            SetProperties(remainingLocations, wave, enemyObject, controller, unit, navigator, false);
+            SetProperties(remainingLocations, currentWave, enemyObject, controller, unit, navigator, false);
             moving--;
         }
     }
@@ -95,8 +96,7 @@ public class WaveController : MonoBehaviour
         int spawningIndex = remainingLocations.ToArray()[remainingIndex];
         var spawningLocation = spawningLocations[spawningIndex];
         remainingLocations.Remove(spawningIndex);
-        controller.spawningIndex = spawningIndex;
-
+        
         enemyObject.transform.position = spawningLocation.position;
         navigator.StationaryPosition = spawningLocation.position;
         navigator.Aggressiveness *= Random.Range(.5f, 2f);
@@ -127,7 +127,11 @@ public class WaveController : MonoBehaviour
         livingEnemies.Remove(enemy);
         if (livingEnemies.Count == 0)
         {
-            if (currentWave < waves.Length)
+            if (currentWave.MegaHeart)
+            {
+                GameController.Instance.SpawnMegaHeart();
+            }
+            if (currentWaveIndex < waves.Length)
             {
                 Invoke("SpawnWave", 2f);
             }

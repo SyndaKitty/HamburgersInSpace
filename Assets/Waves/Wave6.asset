@@ -11,13 +11,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 618a9c77827855f40ae4d50a92b6341b, type: 3}
   m_Name: Wave6
   m_EditorClassIdentifier: 
-  stationary: {x: 3, y: 4}
-  moving: {x: 9, y: 10}
-  RateOfFire: {x: 0.1, y: 0.1}
-  Health: {x: 3, y: 3}
-  PickleVelocity: {x: 10, y: 10}
-  MinBurstSize: {x: 3, y: 3}
-  BurstRange: {x: 0, y: 0}
-  BurstTimeout: {x: 3, y: 3}
-  EnemySpawnWait: {x: 0.8, y: 1}
-  waveStartAudio: {fileID: 0}
+  stationary: {x: 9, y: 11}
+  moving: {x: 0, y: 0}
+  RateOfFire: {x: 1, y: 1.2}
+  Health: {x: 5, y: 5}
+  PickleVelocity: {x: 15, y: 15}
+  MinBurstSize: {x: 1, y: 1}
+  BurstRange: {x: 1, y: 1}
+  BurstTimeout: {x: 5, y: 5}
+  EnemySpawnWait: {x: 2, y: 3}
+  WaveStartAudio: {fileID: 8300000, guid: 8c3adade42690b34d8d4252058f41170, type: 3}
+  MegaHeart: 1

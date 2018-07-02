@@ -38,13 +38,17 @@ public class Unit : MonoBehaviour
     bool invincible;
     float IFrameFlash;
 
-    public void Initialize(bool enemy, Action OnDeathCallback, Action OnHitCallback)
+    public void Initialize(bool enemy, Action OnDeathCallback, bool first = true, Action OnHitCallback = null)
     {
         this.enemy = enemy;
         this.OnDeathCallback = OnDeathCallback;
         this.OnHitCallback = OnHitCallback;
         shielding = false;
-        Health = MaxHealth = StartingHealth;
+        if (first)
+        {
+            MaxHealth = StartingHealth;
+        }
+        Health = MaxHealth;
         RateOfFire = StartingRateOfFire;
         PickleVelocity = StartingPickleVelocity;
         BunShiledDistance = StartingBunShiledDistance;

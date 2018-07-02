@@ -9,19 +9,21 @@ public class EnemyController : MonoBehaviour
     EnemyNavigator navigator;
     GameObject player;
     Rigidbody2D rb;
+    Rigidbody2D playerRb;
     Unit unit;
     float burstTimeout;
     float burstAmount;
     bool bursting;
-    public int spawningIndex;
+    public GameObject healthPrefab;
 
     public void Initialize()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        playerRb = player.GetComponent<Rigidbody2D>();
         navigator = GetComponent<EnemyNavigator>();
         rb = GetComponent<Rigidbody2D>();
         unit = GetComponent<Unit>();
-        unit.Initialize(true, OnDeath, OnHit);
+        unit.Initialize(true, OnDeath, true, OnHit);
         burstAmount = Random.Range(BurstRange.x, BurstRange.y);
         burstTimeout = Random.Range(BurstTimeoutRange.x, BurstTimeoutRange.x) * .4f;
         bursting = true;
@@ -51,13 +53,9 @@ public class EnemyController : MonoBehaviour
         if (bursting && player != null && player.activeSelf)
         {
             Vector2 target = player.transform.position;
+            target += playerRb.velocity;
             Vector2 direction = target - (Vector2)transform.position;
-            Debug.DrawRay(transform.position, direction * direction.magnitude, Color.white);
-            if (Physics2D.Raycast(transform.position, direction, direction.magnitude, 1))
-            {
-                Debug.Log("Can't shoot");
-            }
-            else if (unit.Shoot(target))
+            if (!Physics2D.Raycast(transform.position, direction, direction.magnitude, 1) && unit.Shoot(target))
             {
                 burstAmount--;
             }
@@ -76,6 +74,11 @@ public class EnemyController : MonoBehaviour
     void OnDeath()
     {
         WaveController.Instance.Death(gameObject);
+        if (Random.Range(0, 4) == 0)
+        {
+            var health = Instantiate(healthPrefab);
+            health.transform.position = transform.position;
+        }
         Destroy(gameObject);
     }
 }

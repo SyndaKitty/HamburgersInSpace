@@ -16,27 +16,8 @@ public class MenuController : MonoBehaviour
         QuitButton.onClick.AddListener(QuitGame);
     }
 
-    void Start()
-    {
-        StartCoroutine(DeactivateFadeImage());
-    }
-
-    IEnumerator DeactivateFadeImage()
-    {
-        yield return new WaitUntil(() => FadeImage.color.a == 0);
-        FadeImage.gameObject.SetActive(false);
-    }
-
     void StartGame()
     {
-        StartCoroutine(Fade());
-    }
-
-    IEnumerator Fade()
-    {
-        FadeImage.gameObject.SetActive(true);
-        FadeImageAnimator.SetBool("Fade", true);
-        yield return new WaitUntil(() => FadeImage.color.a == 1);
         SceneManager.LoadSceneAsync(1);
     }
 

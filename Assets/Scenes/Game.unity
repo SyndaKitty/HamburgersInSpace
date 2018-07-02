@@ -11612,13 +11612,13 @@ MonoBehaviour:
   PitchMinMax: {x: 0.9, y: 1.1}
   BurgerDebrisPrefab: {fileID: 114471491958447552, guid: 72501137b0d45d5448aa9e48255b6a69,
     type: 2}
-  StartingHealth: 3
+  StartingHealth: 1
   StartingPickleVelocity: 10
   StartingRateOfFire: 0.3
   StartingBunShiledDistance: 0.5
-  MaxHealth: 0
+  MaxHealth: 1
   Health: 0
-  Innaccuracy: 0.75
+  Innaccuracy: 0.5
 --- !u!58 &601583844
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -12799,12 +12799,12 @@ MonoBehaviour:
   MovingEnemyPrefab: {fileID: 1712349365992096, guid: 3200df9956e881b458af6b3ef2797e4c,
     type: 2}
   waves:
-  - {fileID: 11400000, guid: dffca3205868da54f8219ef4d968e3a2, type: 2}
+  - {fileID: 11400000, guid: e2cfaef9ba6936e48ac789a271cef04a, type: 2}
   - {fileID: 11400000, guid: f13c0ebe79d5f7548a5275f0596efbd1, type: 2}
   - {fileID: 11400000, guid: b077153f3244f0a49bde0d6964af5977, type: 2}
   - {fileID: 11400000, guid: 59f2e4c4a5b30ca48a86d11a5626d2fe, type: 2}
   - {fileID: 11400000, guid: f95f7c86e3749754aa58a1c4f0dedd93, type: 2}
-  - {fileID: 11400000, guid: f95f7c86e3749754aa58a1c4f0dedd93, type: 2}
+  - {fileID: 11400000, guid: e5cda61f2a2bdaa4a9a913a859495c19, type: 2}
   - {fileID: 11400000, guid: dffca3205868da54f8219ef4d968e3a2, type: 2}
   win: {fileID: 8300000, guid: 283a9f730d52de240b0bb8199770caa4, type: 3}
   SpawnerPrefab: {fileID: 1554203750299916, guid: a32da77af74fdff4f9483169c664f190,
@@ -15087,6 +15087,10 @@ MonoBehaviour:
   Life2: {fileID: 990333447}
   Life3: {fileID: 501498438}
   GameOverClip: {fileID: 8300000, guid: ecc7c5844f383d848bdd14acc85ba8e1, type: 3}
+  MegaHeartPrefab: {fileID: 1095291118277212, guid: c44f646c57858db49ae343b05dc12739,
+    type: 2}
+  HeartPrefab: {fileID: 1742703233349822, guid: b6dead553c28dc84dae4e40060e2e46d,
+    type: 2}
 --- !u!4 &1536066400
 Transform:
   m_ObjectHideFlags: 0
@@ -15268,7 +15272,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_TargetDisplay: 0
 --- !u!224 &1570065255
 RectTransform:
@@ -16539,7 +16543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 483922745}
-  parralaxFactor: 0.4
+  parralaxFactor: 0.6
 --- !u!212 &1938534338
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -16721,7 +16725,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 9d0a3874a8acdbf4480e88c53f4034d4, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:

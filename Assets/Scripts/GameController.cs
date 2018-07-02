@@ -27,6 +27,8 @@ public class GameController : MonoBehaviour
     public Image Life2;
     public Image Life3;
     public AudioClip GameOverClip;
+    public GameObject MegaHeartPrefab;
+    public GameObject HeartPrefab;
 
     HealthBar healthBar;
     int tutorialState;
@@ -38,7 +40,6 @@ public class GameController : MonoBehaviour
     Vector3 playerStart;
     int stringShow;
     string tutorialText;
-    int collected;
     bool textPause;
     bool win;
 
@@ -53,7 +54,7 @@ public class GameController : MonoBehaviour
         MenuButton.onClick.AddListener(GoToMainMenu);
         lives = 3;
         audioSource = GetComponent<AudioSource>();
-        PlayerUnit.Initialize(false, PlayerDied, null);
+        PlayerUnit.Initialize(false, PlayerDied, true);
     }
 
     void Start()
@@ -119,6 +120,24 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public bool PickupHealth()
+    {
+        if (PlayerUnit.Health < PlayerUnit.MaxHealth)
+        {
+            PlayerPickedUpCollectible();
+            PlayerUnit.Health++;
+            return true;
+        }
+        return false;
+    }
+
+    public void PickupHealthUpgrade()
+    {
+        PlayerUnit.MaxHealth++;
+        PlayerUnit.Health = PlayerUnit.MaxHealth;
+        PlayerPickedUpCollectible();
+    }
+
     public void PlayerBlocked()
     {
         if (tutorialState == 3)
@@ -133,34 +152,56 @@ public class GameController : MonoBehaviour
         if (tutorialState == 4)
         {
             tutorialState = 5;
-            SetTutorialText("Pick up collectibles to heal or powerup");
-            // TODO: Remove stub
-            PlayerPickedUpCollectible();
-            PlayerPickedUpCollectible();
-            PlayerPickedUpCollectible();
-            PlayerPickedUpCollectible();
+            SetTutorialText("Pick up hearts to heal");
+            UICanvas.SetActive(true);
+            PlayerUnit.Health = 1;
+            PlayerUnit.MaxHealth = 2;
+            var spawnLocation = new Vector3(-3, 0);
+            if ((PlayerUnit.transform.position - spawnLocation).magnitude < 1)
+            {
+                spawnLocation = new Vector3(3, 0);
+            }
+            SpawnHeart(spawnLocation);
         }
+    }
+
+    public void SpawnHeart(Vector2 position)
+    {
+        var heart = Instantiate(HeartPrefab);
+        heart.transform.position = position;
+    }
+
+    public void SpawnMegaHeart(float xPos = 0, float yPos = 0)
+    {
+        var megaHeart = Instantiate(MegaHeartPrefab);   
+        megaHeart.transform.position = new Vector2(xPos, yPos);
     }
 
     public void PlayerPickedUpCollectible()
     {
         if (tutorialState == 5)
         {
-            collected++;
-            if (collected == 4)
+            tutorialState = 6;
+            SetTutorialText("Pick up Mega-Hearts to upgrade health");
+            var spawnLocation = new Vector3(0, 3);
+            if ((PlayerUnit.transform.position - spawnLocation).magnitude < 1)
             {
-                TutorialComplete();
+                spawnLocation = new Vector3(0, -3);
             }
+            SpawnMegaHeart(0, 3);
+        }
+        else if (tutorialState == 6)
+        {
+            TutorialComplete();
         }
     }
 
     void TutorialComplete()
     {
         completedTutorial = true;
-        tutorialState = 6;
+        tutorialState = 7;
         tutorialCanvas.gameObject.SetActive(false);
         WaveController.Instance.SpawnWave();
-        UICanvas.gameObject.SetActive(true);
     }
 
     public void PlayerDied()
@@ -195,7 +236,7 @@ public class GameController : MonoBehaviour
 
     void SpawnPlayer()
     {
-        PlayerUnit.Initialize(false, PlayerDied, null);
+        PlayerUnit.Initialize(false, PlayerDied, false);
         PlayerUnit.SetInvincible(true);
         PlayerObject.transform.position = Vector3.zero;
         PlayerObject.SetActive(true);
@@ -211,7 +252,10 @@ public class GameController : MonoBehaviour
 
     void LateUpdate()
     {
-        healthBar.HealthUpdate();
+        if (UICanvas.activeSelf)
+        {
+            healthBar.HealthUpdate();
+        }
     }
 
     void QuitGame()

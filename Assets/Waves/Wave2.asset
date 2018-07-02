@@ -13,11 +13,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stationary: {x: 3, y: 3}
   moving: {x: 1, y: 1}
-  RateOfFire: {x: 0.4, y: 0.4}
+  RateOfFire: {x: 0.4, y: 0.5}
   Health: {x: 3, y: 4}
   PickleVelocity: {x: 6, y: 6}
   MinBurstSize: {x: 2, y: 3}
   BurstRange: {x: 1, y: 2}
   BurstTimeout: {x: 3, y: 5}
   EnemySpawnWait: {x: 1, y: 1}
-  waveStartAudio: {fileID: 8300000, guid: 7b2b9d3504a1a0d42a2d494eb6798fde, type: 3}
+  WaveStartAudio: {fileID: 8300000, guid: 7b2b9d3504a1a0d42a2d494eb6798fde, type: 3}
+  MegaHeart: 0

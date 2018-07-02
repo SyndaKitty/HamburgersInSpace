@@ -241,7 +241,8 @@ MonoBehaviour:
   Attack: 1
   BurstRange: {x: 6, y: 8}
   BurstTimeoutRange: {x: 2, y: 3}
-  spawningIndex: 0
+  healthPrefab: {fileID: 1742703233349822, guid: b6dead553c28dc84dae4e40060e2e46d,
+    type: 2}
 --- !u!212 &212358262206953906
 SpriteRenderer:
   m_ObjectHideFlags: 1

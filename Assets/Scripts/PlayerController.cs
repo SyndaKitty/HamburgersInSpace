@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
         var targetVelocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         Vector2 rightAnalog = new Vector2(Input.GetAxisRaw("RAnalogX"), Input.GetAxisRaw("RAnalogY"));
+        Debug.Log(rightAnalog);
         var mouseTarget = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         Vector2 force = Speed * targetVelocity - rb.velocity;
