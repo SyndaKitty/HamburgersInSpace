@@ -57,6 +57,7 @@ public class EnemyNavigator : MonoBehaviour
 
     void LateUpdate()
     {
+        if (Time.timeScale == 0) return;
         Vector2 target = Vector2.zero;
         if (player == null) State = NavigationState.Neutral;
         switch (State)

@@ -136,7 +136,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.75
+      value: 0.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -199,6 +199,7 @@ MonoBehaviour:
   PitchMinMax: {x: 0.8, y: 1.2}
   BurgerDebrisPrefab: {fileID: 114471491958447552, guid: 2d213e8ab9fed3a4d87e5c2141dbc154,
     type: 2}
+  Hurt: {fileID: 8300000, guid: 44112d8933e3535419ff4e0a4370e36e, type: 3}
   StartingHealth: 5
   StartingPickleVelocity: 8
   StartingRateOfFire: 0.3

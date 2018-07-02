@@ -12,6 +12,7 @@ public class Unit : MonoBehaviour
     public AudioClip[] Plops;
     public Vector2 PitchMinMax;
     public BurgerDebris BurgerDebrisPrefab;
+    public AudioClip Hurt;
 
     public float StartingHealth;
     public float StartingPickleVelocity;
@@ -69,7 +70,7 @@ public class Unit : MonoBehaviour
         bunShiled.SetActive(false);
     }
 
-   void Update()
+    void Update()
     {
         if (invincible)
         {
@@ -109,7 +110,7 @@ public class Unit : MonoBehaviour
         }
 
         countDown += RateOfFire;
-        
+
         target.z = transform.position.z;
         if (target == transform.position)
         {
@@ -125,7 +126,7 @@ public class Unit : MonoBehaviour
 
         // Shoot our pickle
         Vector2 forceDirection = target - pickleObject.transform.position;
-        var pickleVelocity = forceDirection.normalized* PickleVelocity;
+        var pickleVelocity = forceDirection.normalized * PickleVelocity;
         pickleVelocity += UnityEngine.Random.insideUnitCircle * Innaccuracy;
         var pickleRb = pickleObject.GetComponent<Rigidbody2D>();
         pickleRb.velocity = pickleVelocity;
@@ -150,6 +151,7 @@ public class Unit : MonoBehaviour
     public void Damage(float amount)
     {
         if (invincible) return;
+        PlayDamage();
         if (OnHitCallback != null)
         {
             OnHitCallback();
@@ -194,10 +196,17 @@ public class Unit : MonoBehaviour
 
     void PlayPlop()
     {
+        if (audioSource.isPlaying) return;
         var pitch = UnityEngine.Random.Range(PitchMinMax.x, PitchMinMax.y);
         var plop = Plops[UnityEngine.Random.Range(0, Plops.Length)];
         audioSource.clip = plop;
         audioSource.pitch = pitch;
+        audioSource.Play();
+    }
+
+    void PlayDamage()
+    {
+        audioSource.clip = Hurt;
         audioSource.Play();
     }
 }

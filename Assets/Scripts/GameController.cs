@@ -11,8 +11,6 @@ public class GameController : MonoBehaviour
     static Stack<GameObject> pooledPickles = new Stack<GameObject>();
 
     public bool gamePaused;
-    public GameObject MainMenuPointer;
-    public GameObject QuitGamePointer;
     public GameObject PauseCanvas;
     public Button QuitButton;
     public Button MenuButton;
@@ -47,8 +45,6 @@ public class GameController : MonoBehaviour
     {
         Instance = this;
         gamePaused = false;
-        MainMenuPointer.SetActive(false);
-        QuitGamePointer.SetActive(false);
         PauseCanvas.SetActive(false);
         QuitButton.onClick.AddListener(QuitGame);
         MenuButton.onClick.AddListener(GoToMainMenu);
@@ -82,8 +78,6 @@ public class GameController : MonoBehaviour
         {
             gamePaused = !gamePaused;
             PauseCanvas.SetActive(gamePaused);
-            MainMenuPointer.SetActive(gamePaused);
-            QuitGamePointer.SetActive(gamePaused);
             Time.timeScale = gamePaused ? 0f : 1;
         }
 
@@ -198,6 +192,7 @@ public class GameController : MonoBehaviour
 
     void TutorialComplete()
     {
+        PlayerUnit.Health = PlayerUnit.MaxHealth = 3;
         completedTutorial = true;
         tutorialState = 7;
         tutorialCanvas.gameObject.SetActive(false);

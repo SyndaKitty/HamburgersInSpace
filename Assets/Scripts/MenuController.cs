@@ -12,17 +12,37 @@ public class MenuController : MonoBehaviour
 
     private void Awake()
     {
+        Time.timeScale = 1;
         StartButton.onClick.AddListener(StartGame);
         QuitButton.onClick.AddListener(QuitGame);
     }
 
-    void StartGame()
+    void Start()
     {
-        SceneManager.LoadSceneAsync(1);
+        StartCoroutine(DeactivateFadeImage());
     }
 
     void QuitGame()
     {
         Application.Quit();
+    }
+
+    IEnumerator DeactivateFadeImage()
+    {
+        yield return new WaitUntil(() => FadeImage.color.a == 0);
+        FadeImage.gameObject.SetActive(false);
+    }
+
+    void StartGame()
+    {
+        StartCoroutine(Fade());
+    }
+
+    IEnumerator Fade()
+    {
+        FadeImage.gameObject.SetActive(true);
+        FadeImageAnimator.SetBool("Fade", true);
+        yield return new WaitUntil(() => FadeImage.color.a == 1);
+        SceneManager.LoadSceneAsync(1);
     }
 }

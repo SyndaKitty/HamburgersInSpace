@@ -9,16 +9,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 618a9c77827855f40ae4d50a92b6341b, type: 3}
-  m_Name: Wave9
+  m_Name: FinalWave Part 2
   m_EditorClassIdentifier: 
-  stationary: {x: 8, y: 8}
-  moving: {x: 0, y: 0}
-  RateOfFire: {x: 0.2, y: 0.3}
-  Health: {x: 1, y: 3}
-  PickleVelocity: {x: 6, y: 6}
-  MinBurstSize: {x: 2, y: 2}
-  BurstRange: {x: 0, y: 0}
-  BurstTimeout: {x: 4, y: 6}
-  EnemySpawnWait: {x: 0.1, y: 0.1}
-  WaveStartAudio: {fileID: 8300000, guid: 6f6bd936a99c0e841bc72cd86599c6b8, type: 3}
+  stationary: {x: 0, y: 0}
+  moving: {x: 6, y: 6}
+  RateOfFire: {x: 0.2, y: 0.2}
+  Health: {x: 6, y: 6}
+  PickleVelocity: {x: 12, y: 12}
+  MinBurstSize: {x: 5, y: 6}
+  BurstRange: {x: 2, y: 3}
+  BurstTimeout: {x: 5, y: 5}
+  EnemySpawnWait: {x: 3, y: 4}
+  WaveStartAudio: {fileID: 0}
   MegaHeart: 0

@@ -11,10 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 618a9c77827855f40ae4d50a92b6341b, type: 3}
   m_Name: Wave4
   m_EditorClassIdentifier: 
-  stationary: {x: 5, y: 6}
+  stationary: {x: 3, y: 4}
   moving: {x: 6, y: 7}
   RateOfFire: {x: 1, y: 1}
-  Health: {x: 2, y: 2}
+  Health: {x: 1, y: 2}
   PickleVelocity: {x: 11, y: 11}
   MinBurstSize: {x: 3, y: 3}
   BurstRange: {x: 0, y: 0}
